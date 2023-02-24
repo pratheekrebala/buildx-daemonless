@@ -26,9 +26,12 @@ RUN mkdir /tmp/go-getter && curl -Ls \
 
 FROM moby/buildkit:master-rootless as buildkit
 
+VOLUME [ "/tmp/workspace" ]
+WORKDIR /tmp/workspace
+
 COPY --from=base /tmp/export/bin/ /usr/local/bin/
 COPY --from=go-getter /go/bin/go-getter /usr/local/bin/
 
-COPY --chmod=0755 buildctl.sh /usr/local/bin/buildctl.sh
+COPY --chmod=0755 buildx.sh start.sh /usr/local/bin/
 
-ENTRYPOINT ["/usr/local/bin/buildctl.sh"]
+ENTRYPOINT ["/usr/local/bin/start.sh"]

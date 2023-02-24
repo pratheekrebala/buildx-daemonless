@@ -19,11 +19,14 @@ docker run -it --rm \
 
 The image bundles the `go-getter` package so a remote build context can be provided. This allows for a stateless builder that can e.g. point to S3 buckets, GCS buckets, Git commits etc.
 
+If using a remote context, use a relative path (`./`) to point to subdirs inside a bundle
+
 ```
 docker run -it --rm \
   --security-opt seccomp=unconfined \
   --security-opt apparmor=unconfined \
   publici/buildx \
+  --remote-context https://github.com/docker/getting-started.git
   --push -t test:workspace
-  https://github.com/docker/getting-started.git
+  ./getting-started-master
 ```
